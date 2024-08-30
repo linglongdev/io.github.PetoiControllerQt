@@ -1,0 +1,29 @@
+version: "1"
+
+package:
+  id: io.github.PetoiControllerQt
+  name: PetoiControllerQt
+  version: 0.2.3.1
+  kind: app
+  description: |
+    Connect and communicate with Bittle through serial with Qt 5
+
+command:
+  - /opt/apps/io.github.PetoiControllerQt/files/bin/PetoiControllerQt
+
+base: org.deepin.foundation/23.0.0
+runtime: org.deepin.Runtime/23.0.1
+
+sources:
+  - kind: git
+    url: https://github.com/PetoiCamp/PetoiControllerQt.git
+    version: master
+    commit: af2435888b5a16453da24699a908466071aada9c
+
+build: |
+  cd /project/linglong/sources/PetoiControllerQt.git
+  git apply ../../../0001-install.patch
+  cp res/logo.png  res/PetoiControllerQt.png 
+  qmake -makefile PREFIX=${PREFIX} LIB_INSTALL_DIR=${PREFIX}/lib/${TRIPLET}
+  make -j$(nproc)
+  make install
